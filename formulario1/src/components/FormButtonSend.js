@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
+
+import { submit } from 'redux-form'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
   button: {
@@ -20,27 +22,26 @@ const styles = theme => ({
   },
 });
 
-function FormButtons(props) {
-  const { classes } = props;
+function FormButtonSend(props) {
+  const { classes, submitting, pristine, dispatch } = props;
   return (
     <div>
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-      <Button variant="contained" color="primary" className={classes.button}>
+      <Button 
+        variant="contained" color="primary" 
+        className={classes.button} 
+        disabled={pristine || submitting}
+        onClick={() => dispatch(submit('MaterialUIForm'))}>
         Send
         {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
         <Icon className={classes.rightIcon}>send</Icon>
-      </Button>
-      <Button variant="contained" color="secondary" className={classes.button}>
-        Delete
-        <DeleteIcon className={classes.rightIcon} />
-      </Button>
-    
+      </Button>    
     </div>
   );
 }
 
-FormButtons.propTypes = {
+FormButtonSend.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FormButtons);
+export default connect()(withStyles(styles)(FormButtonSend));

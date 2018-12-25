@@ -9,7 +9,8 @@ import asyncValidate from './asyncValidate'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import { withStyles } from '@material-ui/core/styles';
-import FormButtons from './FormButtons';
+import FormButtonSend from './FormButtonSend';
+import FormButtonDelete from './FormButtonDelete';
 
 
 const validate = values => {
@@ -64,42 +65,40 @@ const MaterialUiForm = props => {
   
   return (
     <MuiThemeProvider>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="firstName" component={renderTextField} label="First Name"/>
-      </div>
-      <div>
-        <Field name="lastName" component={renderTextField} label="Last Name"/>
-      </div>
-      <div>
-        <Field name="email" component={renderTextField} label="Email"/>
-      </div>
-      <div>
-        <Field name="sex" component={renderRadioGroup}>
-          <RadioButton value="male" label="male"/>
-          <RadioButton value="female" label="female"/>
-        </Field>
-      </div>
-      <div>
-        <Field name="favoriteColor" component={renderSelectField} label="Favorite Color">
-          <MenuItem value="ff0000" primaryText="Red"/>
-          <MenuItem value="00ff00" primaryText="Green"/>
-          <MenuItem value="0000ff" primaryText="Blue"/>
-        </Field>
-      </div>
-      <div>
-        <Field name="employed" component={renderCheckbox} label="Employed"/>
-      </div>
-      <div>
-        <Field name="notes" component={renderTextField} label="Notes" multiLine={true} rows={2}/>
-      </div>
-      <div>
-        <FormButtons/>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-            Clear Values
-        </button>
-      </div>
-    </form>
+        <form onSubmit={handleSubmit}>
+        <div>
+            <Field name="firstName" component={renderTextField} label="First Name"/>
+        </div>
+        <div>
+            <Field name="lastName" component={renderTextField} label="Last Name"/>
+        </div>
+        <div>
+            <Field name="email" component={renderTextField} label="Email"/>
+        </div>
+        <div>
+            <Field name="sex" component={renderRadioGroup}>
+            <RadioButton value="male" label="male"/>
+            <RadioButton value="female" label="female"/>
+            </Field>
+        </div>
+        <div>
+            <Field name="favoriteColor" component={renderSelectField} label="Favorite Color">
+            <MenuItem value="ff0000" primaryText="Red"/>
+            <MenuItem value="00ff00" primaryText="Green"/>
+            <MenuItem value="0000ff" primaryText="Blue"/>
+            </Field>
+        </div>
+        <div>
+            <Field name="employed" component={renderCheckbox} label="Employed"/>
+        </div>
+        <div>
+            <Field name="notes" component={renderTextField} label="Notes" multiLine={true} rows={2}/>
+        </div>
+        <div>
+            <FormButtonSend onClick={reset}  submitting={submitting} pristine={pristine} type="submit"/>
+            <FormButtonDelete onClick={reset}  pristine={pristine} reset = {reset} submitting={submitting} />     
+        </div>
+        </form>
     </MuiThemeProvider>
   )
 }
@@ -126,5 +125,5 @@ const styles = theme => ({
 export default  reduxForm({
   form: 'MaterialUIForm',  // a unique identifier for this form
   validate,
-  asyncValidate
+  onSubmit: asyncValidate
 })(withStyles(styles)(MaterialUiForm))
